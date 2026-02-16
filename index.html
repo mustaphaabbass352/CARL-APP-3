@@ -10,43 +10,62 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
-        .pac-container { 
-            border-radius: 1rem; 
-            margin-top: 4px; 
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); 
-            border: none;
-            font-family: 'Inter', sans-serif;
-            z-index: 9999 !important;
+        #error-display {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #fff; color: #ef4444;
+            padding: 2rem; z-index: 9999;
+            font-family: monospace; overflow: auto;
         }
     </style>
-    <!-- Google Maps script with async to prevent blocking render if key is invalid -->
-    <script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places"></script>
+    <script>
+        // Error logging for debugging on GitHub/Mobile
+        window.onerror = function(msg, url, line, col, error) {
+            const display = document.getElementById('error-display');
+            if (display) {
+                display.style.display = 'block';
+                display.innerHTML += `<p><b>Error:</b> ${msg}<br><small>at ${url}:${line}:${col}</small></p>`;
+            }
+            return false;
+        };
+        // Polyfill process for browser
+        window.process = window.process || { env: { NODE_ENV: 'production', API_KEY: '' } };
+    </script>
     <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@^19.2.4",
-    "react-dom": "https://esm.sh/react-dom@^19.2.4",
-    "react-dom/client": "https://esm.sh/react-dom@^19.2.4/client",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.564.0",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.13.0",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+    "react": "https://esm.sh/react@19.0.0",
+    "react-dom": "https://esm.sh/react-dom@19.0.0",
+    "react-dom/client": "https://esm.sh/react-dom@19.0.0/client",
+    "react-router-dom": "https://esm.sh/react-router-dom@7.1.0?external=react,react-dom",
+    "@google/genai": "https://esm.sh/@google/genai@1.41.0",
+    "lucide-react": "https://esm.sh/lucide-react@0.460.0?external=react",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "react/": "https://esm.sh/react@^19.2.4/"
   }
 }
 </script>
+    <!-- Maps API - Note: App handles key failure gracefully -->
+    <script async src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places"></script>
     <script type="module" src="index.tsx"></script>
 </head>
 <body class="bg-slate-50 text-slate-900">
+    <div id="error-display">
+        <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">Engine Failure :(</h1>
+    </div>
     <div id="root">
-        <!-- Fallback while JS loads -->
-        <div class="h-screen flex items-center justify-center bg-white">
-            <div class="text-center">
-                <h1 class="text-2xl font-bold text-green-600 mb-2">Carl App</h1>
-                <p class="text-slate-400 animate-pulse">Starting engine...</p>
+        <div class="h-screen flex flex-col items-center justify-center bg-white">
+            <div class="relative">
+                <div class="w-16 h-16 border-4 border-green-100 border-t-green-600 rounded-full animate-spin"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-2 h-2 bg-green-600 rounded-full animate-pulse"></div>
+                </div>
             </div>
+            <h1 class="text-2xl font-black text-green-600 mt-6 tracking-tighter uppercase">Carl App</h1>
+            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2 animate-pulse">Starting engine...</p>
         </div>
     </div>
 </body>
