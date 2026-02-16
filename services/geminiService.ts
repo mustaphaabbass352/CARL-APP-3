@@ -1,6 +1,6 @@
 
 import { GoogleGenAI } from "@google/genai";
-import { Trip, Expense } from "../types";
+import { Trip, Expense } from "../types.ts";
 
 export const getDriverInsights = async (trips: Trip[], expenses: Expense[]) => {
   const apiKey = (process.env as any).API_KEY;

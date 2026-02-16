@@ -1,5 +1,5 @@
 
-import { Trip, Expense, Customer } from './types';
+import { Trip, Expense, Customer } from './types.ts';
 
 const STORAGE_KEYS = {
   TRIPS: 'carl_trips',
