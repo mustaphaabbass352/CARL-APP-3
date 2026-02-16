@@ -1,9 +1,9 @@
 
 import React from 'react';
 import { HashRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/Layout';
-import Dashboard from './components/Dashboard';
-import RideTracker from './components/RideTracker';
+import Layout from './components/Layout.tsx';
+import Dashboard from './components/Dashboard.tsx';
+import RideTracker from './components/RideTracker.tsx';
 
 const FinancePlaceholder = () => (
   <div className="p-4 space-y-4">

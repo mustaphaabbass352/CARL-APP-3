@@ -1,9 +1,9 @@
 
 import React, { useState, useEffect } from 'react';
-import { Trip, Expense } from '../types';
-import { DB } from '../db';
+import { Trip, Expense } from '../types.ts';
+import { DB } from '../db.ts';
 import { TrendingUp, Fuel, Timer, CreditCard, ChevronRight, BrainCircuit } from 'lucide-react';
-import { getDriverInsights } from '../services/geminiService';
+import { getDriverInsights } from '../services/geminiService.ts';
 
 const Dashboard: React.FC = () => {
   const [trips, setTrips] = useState<Trip[]>([]);

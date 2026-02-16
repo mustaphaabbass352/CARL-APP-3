@@ -22,16 +22,19 @@
         }
     </style>
     <script>
-        // Error logging for debugging on GitHub/Mobile
+        // Global error tracking - shows errors on screen if the app fails to boot
         window.onerror = function(msg, url, line, col, error) {
             const display = document.getElementById('error-display');
             if (display) {
                 display.style.display = 'block';
-                display.innerHTML += `<p><b>Error:</b> ${msg}<br><small>at ${url}:${line}:${col}</small></p>`;
+                display.innerHTML += `<div style="margin-bottom: 1rem; border-bottom: 1px solid #fee2e2; padding-bottom: 0.5rem;">
+                    <strong>Error:</strong> ${msg}<br>
+                    <small style="color: #991b1b">at ${url}:${line}:${col}</small>
+                </div>`;
             }
             return false;
         };
-        // Polyfill process for browser
+        // Polyfill process for browser environment
         window.process = window.process || { env: { NODE_ENV: 'production', API_KEY: '' } };
     </script>
     <script type="importmap">
@@ -54,18 +57,19 @@
 </head>
 <body class="bg-slate-50 text-slate-900">
     <div id="error-display">
-        <h1 style="font-size: 1.5rem; margin-bottom: 1rem;">Engine Failure :(</h1>
+        <h1 style="font-size: 1.5rem; color: #b91c1c; margin-bottom: 1rem; font-weight: bold;">Engine Failure :(</h1>
     </div>
     <div id="root">
-        <div class="h-screen flex flex-col items-center justify-center bg-white">
-            <div class="relative">
-                <div class="w-16 h-16 border-4 border-green-100 border-t-green-600 rounded-full animate-spin"></div>
+        <div class="h-screen flex flex-col items-center justify-center bg-white text-center px-6">
+            <div class="relative mb-6">
+                <div class="w-20 h-20 border-[6px] border-green-100 border-t-green-600 rounded-full animate-spin"></div>
                 <div class="absolute inset-0 flex items-center justify-center">
-                    <div class="w-2 h-2 bg-green-600 rounded-full animate-pulse"></div>
+                    <div class="w-3 h-3 bg-green-600 rounded-full animate-pulse"></div>
                 </div>
             </div>
-            <h1 class="text-2xl font-black text-green-600 mt-6 tracking-tighter uppercase">Carl App</h1>
-            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2 animate-pulse">Starting engine...</p>
+            <h1 class="text-3xl font-black text-green-600 tracking-tighter uppercase mb-2">Carl App</h1>
+            <p class="text-slate-400 text-sm font-bold uppercase tracking-[0.2em] animate-pulse">Starting engine...</p>
+            <p class="mt-8 text-xs text-slate-300 max-w-xs">Connecting to Ghana transport network and preparing your dashboard.</p>
         </div>
     </div>
 </body>

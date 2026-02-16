@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Trip, PaymentType, LatLng } from '../types';
-import { DB } from '../db';
+import { Trip, PaymentType } from '../types.ts';
+import { DB } from '../db.ts';
 import { Play, Square, MapPin, Navigation, Banknote, CreditCard, AlertCircle } from 'lucide-react';
 
 declare global {
@@ -22,7 +22,7 @@ const RideTracker: React.FC = () => {
   const [distance, setDistance] = useState<number>(0);
   const [mapsError, setMapsError] = useState(false);
   
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timerRef = useRef<any>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const pickupInputRef = useRef<HTMLInputElement>(null);
   const dropoffInputRef = useRef<HTMLInputElement>(null);
@@ -32,7 +32,6 @@ const RideTracker: React.FC = () => {
   useEffect(() => {
     const initMaps = () => {
       if (typeof window.google === 'undefined' || !window.google.maps || !mapRef.current) {
-        // If not loaded yet, retry in a second (helpful for async scripts)
         const timer = setTimeout(() => {
           if (typeof window.google === 'undefined') setMapsError(true);
         }, 3000);
@@ -179,7 +178,7 @@ const RideTracker: React.FC = () => {
                 ref={pickupInputRef}
                 type="text" 
                 placeholder="Pickup Location"
-                className="w-full px-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-green-500 font-medium"
+                className="w-full px-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-green-500 font-medium text-lg"
                 value={pickup}
                 onChange={(e) => setPickup(e.target.value)}
               />
@@ -187,7 +186,7 @@ const RideTracker: React.FC = () => {
                 ref={dropoffInputRef}
                 type="text" 
                 placeholder="Dropoff (Optional)"
-                className="w-full px-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-green-500 font-medium"
+                className="w-full px-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-green-500 font-medium text-lg"
                 value={dropoff}
                 onChange={(e) => setDropoff(e.target.value)}
               />
