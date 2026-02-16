@@ -1,0 +1,7 @@
+{
+  "name": "Copy of Carl App - Ghana Driver Manager",
+  "description": "A professional business manager for ride-hailing drivers in Ghana. Track trips, expenses, and performance with ease.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
