@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Trip, Expense } from '../types.ts';
 import { DB } from '../db.ts';
-import { TrendingUp, Fuel, Timer, CreditCard, ChevronRight, BrainCircuit } from 'lucide-react';
+import { TrendingUp, Fuel, Timer, CreditCard, ChevronRight, BrainCircuit, Trash2 } from 'lucide-react';
 import { getDriverInsights } from '../services/geminiService.ts';
 
 const Dashboard: React.FC = () => {
@@ -11,17 +11,25 @@ const Dashboard: React.FC = () => {
   const [insight, setInsight] = useState<string>("Loading your daily insights...");
 
   useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
     const loadedTrips = DB.getTrips();
     const loadedExpenses = DB.getExpenses();
     setTrips(loadedTrips);
     setExpenses(loadedExpenses);
 
-    const fetchInsights = async () => {
-      const msg = await getDriverInsights(loadedTrips, loadedExpenses);
-      setInsight(msg);
-    };
-    fetchInsights();
-  }, []);
+    const msg = await getDriverInsights(loadedTrips, loadedExpenses);
+    setInsight(msg);
+  };
+
+  const handleDeleteTrip = (id: string) => {
+    if (window.confirm("Delete this trip? This cannot be undone.")) {
+      DB.deleteTrip(id);
+      loadData();
+    }
+  };
 
   const todayStr = new Date().toISOString().split('T')[0];
   const todayTrips = trips.filter(t => new Date(t.startTime).toISOString().split('T')[0] === todayStr);
@@ -90,18 +98,26 @@ const Dashboard: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-2">
-            {todayTrips.slice(0, 3).map((trip) => (
-              <div key={trip.id} className="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between">
+            {todayTrips.slice(0, 5).map((trip) => (
+              <div key={trip.id} className="bg-white p-3 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between group">
                 <div className="flex items-center space-x-3">
                   <div className={`p-2 rounded-lg ${trip.paymentType === 'CASH' ? 'bg-orange-100 text-orange-600' : 'bg-blue-100 text-blue-600'}`}>
                     <CreditCard size={20} />
                   </div>
                   <div>
-                    <p className="text-sm font-bold text-slate-800">{trip.pickupLocation}</p>
+                    <p className="text-sm font-bold text-slate-800 max-w-[120px] truncate">{trip.dropoffLocation || trip.pickupLocation}</p>
                     <p className="text-[10px] text-slate-500">{new Date(trip.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • {trip.distance}km</p>
                   </div>
                 </div>
-                <p className="font-bold text-slate-900">₵{trip.fare.toFixed(2)}</p>
+                <div className="flex items-center space-x-3">
+                  <p className="font-bold text-slate-900">₵{trip.fare.toFixed(2)}</p>
+                  <button 
+                    onClick={() => handleDeleteTrip(trip.id)}
+                    className="p-2 text-slate-300 hover:text-red-500 transition-colors rounded-lg hover:bg-red-50"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               </div>
             ))}
           </div>

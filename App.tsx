@@ -30,30 +30,6 @@ const FinancePlaceholder = () => (
   </div>
 );
 
-const CustomersPlaceholder = () => (
-  <div className="p-4 space-y-4">
-    <h2 className="text-xl font-bold mb-4">Customer History</h2>
-    <div className="space-y-3">
-      {[
-        { name: "Kojo Mensah", trips: 12, total: 345, last: "2 days ago" },
-        { name: "Ama Serwaa", trips: 4, total: 120, last: "5 days ago" },
-        { name: "Emmanuel (Regular)", trips: 28, total: 980, last: "Today" },
-      ].map((c, i) => (
-        <div key={i} className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex justify-between items-center">
-          <div>
-            <p className="font-bold text-slate-800">{c.name}</p>
-            <p className="text-xs text-slate-500">{c.trips} trips • Last seen {c.last}</p>
-          </div>
-          <div className="text-right">
-            <p className="font-bold text-green-600">₵{c.total}</p>
-            <button className="text-[10px] text-blue-500 underline">History</button>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
 const ReportsPlaceholder = () => (
   <div className="p-4 space-y-6">
     <h2 className="text-xl font-bold">Performance Analytics</h2>
@@ -90,7 +66,6 @@ const App: React.FC = () => {
           <Route path="/" element={<Dashboard />} />
           <Route path="/tracker" element={<RideTracker />} />
           <Route path="/finance" element={<FinancePlaceholder />} />
-          <Route path="/customers" element={<CustomersPlaceholder />} />
           <Route path="/reports" element={<ReportsPlaceholder />} />
         </Routes>
       </Layout>

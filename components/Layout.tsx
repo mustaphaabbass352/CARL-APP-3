@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Home, Map, Receipt, Users, BarChart3 } from 'lucide-react';
+import { Home, Map, Receipt, BarChart3 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -10,7 +10,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     { path: '/', icon: Home, label: 'Home' },
     { path: '/tracker', icon: Map, label: 'Track' },
     { path: '/finance', icon: Receipt, label: 'Money' },
-    { path: '/customers', icon: Users, label: 'Clients' },
     { path: '/reports', icon: BarChart3, label: 'Stats' },
   ];
 
